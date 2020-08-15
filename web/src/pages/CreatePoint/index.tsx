@@ -33,6 +33,10 @@ const CreatePoint = () => {
   const [isCities, setIsCities] = useState<string[]>();
   const [isSelectedUF, setIsSelectedUF] = useState("0");
   const [isSelectedCity, setIsSelectedCity] = useState("0");
+  const [isInitialPosition, setIsInitialPosition] = useState<[number, number]>([
+    0,
+    1,
+  ]);
   const [isSelectedPosition, setIsSelectedPosition] = useState<
     [number, number]
   >([0, 1]);
@@ -70,6 +74,14 @@ const CreatePoint = () => {
         setIsCities(citiesName);
       });
   }, [isSelectedUF]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+
+      setIsInitialPosition([latitude, longitude]);
+    });
+  });
 
   function handleSelectUF(event: ChangeEvent<HTMLSelectElement>) {
     const uf = event.target.value;
@@ -132,11 +144,7 @@ const CreatePoint = () => {
           </legend>
         </fieldset>
 
-        <Map
-          zoom={17}
-          onClick={handleMapClick}
-          center={[-22.9108591, -47.0462593]}
-        >
+        <Map zoom={15} onClick={handleMapClick} center={isInitialPosition}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
