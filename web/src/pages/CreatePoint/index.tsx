@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
@@ -123,6 +123,31 @@ const CreatePoint = () => {
     }
   }
 
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    const uf = isSelectedUF;
+    const city = isSelectedCity;
+    const items = isSelectedItems;
+    const { name, email, whatsapp } = isFormData;
+    const [latitude, longitude] = isSelectedPosition;
+
+    const data = {
+      uf,
+      city,
+      name,
+      email,
+      items,
+      whatsapp,
+      latitude,
+      longitude,
+    };
+
+    await api.post("points", data);
+
+    alert("Ponto de coleta criado com sucesso!");
+  }
+
   return (
     <div id="page-create-point">
       <header>
@@ -134,7 +159,7 @@ const CreatePoint = () => {
         </Link>
       </header>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Cadastro do</h1>
         <h1>ponto de coleta</h1>
 
