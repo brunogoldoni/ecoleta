@@ -6,7 +6,7 @@ import logo from "../../assets/logo.svg";
 
 import "./styles.css";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div id="page-home">
       <div className="content">

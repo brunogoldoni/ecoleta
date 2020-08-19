@@ -27,7 +27,7 @@ interface IBGECityResponse {
   nome: string;
 }
 
-const CreatePoint = () => {
+const CreatePoint: React.FC = () => {
   const [isUFs, setIsUFs] = useState<string[]>([]);
   const [isItems, setIsItems] = useState<Item[]>([]);
   const [isCities, setIsCities] = useState<string[]>();
@@ -51,7 +51,7 @@ const CreatePoint = () => {
     api.get("items").then((response) => {
       setIsItems(response.data);
     });
-  });
+  }, []);
 
   useEffect(() => {
     axios
@@ -116,7 +116,6 @@ const CreatePoint = () => {
 
     if (alreadySelected >= 0) {
       const filteredItems = isSelectedItems.filter((item) => item !== id);
-
       setIsSelectedItems(filteredItems);
     } else {
       setIsSelectedItems([...isSelectedItems, id]);
